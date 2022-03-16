@@ -56,7 +56,7 @@ class MetaQuery {
 		 *
 		 * @since 0.0.1
 		 */
-		add_filter( 'graphql_input_fields', [ $this, 'add_input_fields' ], 10, 4 );
+		add_filter( 'graphql_input_fields', array( $this, 'add_input_fields' ), 10, 4 );
 
 		/**
 		 * Filter the $allowed_custom_args for the PostObjectsConnectionResolver to map the
@@ -64,7 +64,7 @@ class MetaQuery {
 		 *
 		 * @since 0.0.1
 		 */
-		add_filter( 'graphql_map_input_fields_to_wp_query', [ $this, 'map_input_fields' ], 10, 2 );
+		add_filter( 'graphql_map_input_fields_to_wp_query', array( $this, 'map_input_fields' ), 10, 2 );
 
 	}
 
@@ -139,9 +139,9 @@ class MetaQuery {
 	public function add_input_fields( $fields, $type_name, $config, $type_registry ) {
 		if ( isset( $config['queryClass'] ) && 'WP_Query' === $config['queryClass'] ) {
 			$this->register_types( $type_name, $type_registry );
-			$fields['metaQuery'] = [
+			$fields['metaQuery'] = array(
 				'type' => $type_name . 'MetaQuery',
-			];
+			);
 		}
 
 		return $fields;
@@ -155,141 +155,157 @@ class MetaQuery {
 	 */
 	public function register_types( $type_name, TypeRegistry $type_registry ) {
 
-		$type_registry->register_enum_type( $type_name . 'MetaTypeEnum', [
-			'values' => [
-				'NUMERIC' => [
-					'name'  => 'NUMERIC',
-					'value' => 'NUMERIC',
-				],
-				'BINARY' => [
-					'name'  => 'BINARY',
-					'value' => 'BINARY',
-				],
-				'CHAR' => [
-					'name'  => 'CHAR',
-					'value' => 'CHAR',
-				],
-				'DATE' => [
-					'name'  => 'DATE',
-					'value' => 'DATE',
-				],
-				'DATETIME' => [
-					'name'  => 'DATETIME',
-					'value' => 'DATETIME',
-				],
-				'DECIMAL' => [
-					'name'  => 'DECIMAL',
-					'value' => 'DECIMAL',
-				],
-				'SIGNED' => [
-					'name'  => 'SIGNED',
-					'value' => 'SIGNED',
-				],
-				'TIME' => [
-					'name'  => 'TIME',
-					'value' => 'TIME',
-				],
-				'UNSIGNED' => [
-					'name'  => 'UNSIGNED',
-					'value' => 'UNSIGNED',
-				],
-			]
-		] );
+		$type_registry->register_enum_type(
+			$type_name . 'MetaTypeEnum',
+			array(
+				'values' => array(
+					'NUMERIC'  => array(
+						'name'  => 'NUMERIC',
+						'value' => 'NUMERIC',
+					),
+					'BINARY'   => array(
+						'name'  => 'BINARY',
+						'value' => 'BINARY',
+					),
+					'CHAR'     => array(
+						'name'  => 'CHAR',
+						'value' => 'CHAR',
+					),
+					'DATE'     => array(
+						'name'  => 'DATE',
+						'value' => 'DATE',
+					),
+					'DATETIME' => array(
+						'name'  => 'DATETIME',
+						'value' => 'DATETIME',
+					),
+					'DECIMAL'  => array(
+						'name'  => 'DECIMAL',
+						'value' => 'DECIMAL',
+					),
+					'SIGNED'   => array(
+						'name'  => 'SIGNED',
+						'value' => 'SIGNED',
+					),
+					'TIME'     => array(
+						'name'  => 'TIME',
+						'value' => 'TIME',
+					),
+					'UNSIGNED' => array(
+						'name'  => 'UNSIGNED',
+						'value' => 'UNSIGNED',
+					),
+				),
+			)
+		);
 
-		$type_registry->register_enum_type( $type_name . 'MetaCompareEnum', [
-			'values' => [
-				'EQUAL_TO'                 => [
-					'name'  => 'EQUAL_TO',
-					'value' => '=',
-				],
-				'NOT_EQUAL_TO'             => [
-					'name'  => 'NOT_EQUAL_TO',
-					'value' => '!=',
-				],
-				'GREATER_THAN'             => [
-					'name'  => 'GREATER_THAN',
-					'value' => '>',
-				],
-				'GREATER_THAN_OR_EQUAL_TO' => [
-					'name'  => 'GREATER_THAN_OR_EQUAL_TO',
-					'value' => '>=',
-				],
-				'LESS_THAN'                => [
-					'name'  => 'LESS_THAN',
-					'value' => '<',
-				],
-				'LESS_THAN_OR_EQUAL_TO'    => [
-					'name'  => 'LESS_THAN_OR_EQUAL_TO',
-					'value' => '<=',
-				],
-				'LIKE'                     => [
-					'name'  => 'LIKE',
-					'value' => 'LIKE',
-				],
-				'NOT_LIKE'                 => [
-					'name'  => 'NOT_LIKE',
-					'value' => 'NOT LIKE',
-				],
-				'IN'                       => [
-					'name'  => 'IN',
-					'value' => 'IN',
-				],
-				'NOT_IN'                   => [
-					'name'  => 'NOT_IN',
-					'value' => 'NOT IN',
-				],
-				'BETWEEN'                  => [
-					'name'  => 'BETWEEN',
-					'value' => 'BETWEEN',
-				],
-				'NOT_BETWEEN'              => [
-					'name'  => 'NOT_BETWEEN',
-					'value' => 'NOT BETWEEN',
-				],
-				'EXISTS'                   => [
-					'name'  => 'EXISTS',
-					'value' => 'EXISTS',
-				],
-				'NOT_EXISTS'               => [
-					'name'  => 'NOT_EXISTS',
-					'value' => 'NOT EXISTS',
-				],
-			]
-		] );
+		$type_registry->register_enum_type(
+			$type_name . 'MetaCompareEnum',
+			array(
+				'values' => array(
+					'EQUAL_TO'                 => array(
+						'name'  => 'EQUAL_TO',
+						'value' => '=',
+					),
+					'NOT_EQUAL_TO'             => array(
+						'name'  => 'NOT_EQUAL_TO',
+						'value' => '!=',
+					),
+					'GREATER_THAN'             => array(
+						'name'  => 'GREATER_THAN',
+						'value' => '>',
+					),
+					'GREATER_THAN_OR_EQUAL_TO' => array(
+						'name'  => 'GREATER_THAN_OR_EQUAL_TO',
+						'value' => '>=',
+					),
+					'LESS_THAN'                => array(
+						'name'  => 'LESS_THAN',
+						'value' => '<',
+					),
+					'LESS_THAN_OR_EQUAL_TO'    => array(
+						'name'  => 'LESS_THAN_OR_EQUAL_TO',
+						'value' => '<=',
+					),
+					'LIKE'                     => array(
+						'name'  => 'LIKE',
+						'value' => 'LIKE',
+					),
+					'NOT_LIKE'                 => array(
+						'name'  => 'NOT_LIKE',
+						'value' => 'NOT LIKE',
+					),
+					'IN'                       => array(
+						'name'  => 'IN',
+						'value' => 'IN',
+					),
+					'NOT_IN'                   => array(
+						'name'  => 'NOT_IN',
+						'value' => 'NOT IN',
+					),
+					'BETWEEN'                  => array(
+						'name'  => 'BETWEEN',
+						'value' => 'BETWEEN',
+					),
+					'NOT_BETWEEN'              => array(
+						'name'  => 'NOT_BETWEEN',
+						'value' => 'NOT BETWEEN',
+					),
+					'EXISTS'                   => array(
+						'name'  => 'EXISTS',
+						'value' => 'EXISTS',
+					),
+					'NOT_EXISTS'               => array(
+						'name'  => 'NOT_EXISTS',
+						'value' => 'NOT EXISTS',
+					),
+				),
+			)
+		);
 
-		$type_registry->register_input_type( $type_name . 'MetaArray', [
-			'fields' => [
-				'key'     => [
-					'type'        => 'String',
-					'description' => __( 'Custom field key', 'wp-graphql' ),
-				],
-				'value'   => [
-					'type'        => 'String',
-					'description' => __( 'Custom field value', 'wp-graphql' ),
-				],
-				'compare' => [
-					'type'        => $type_name . 'MetaCompareEnum',
-					'description' => __( 'Custom field value', 'wp-graphql' ),
-				],
-				'type'    => [
-					'type'        => $type_name . 'MetaTypeEnum',
-					'description' => __( 'Custom field value', 'wp-graphql' ),
-				],
-			]
-		] );
+		$type_registry->register_input_type(
+			$type_name . 'MetaArray',
+			array(
+				'fields' => array(
+					'key'     => array(
+						'type'        => 'String',
+						'description' => __( 'Custom field key', 'wp-graphql' ),
+					),
+					'value'   => array(
+						'type'        => 'String',
+						'description' => __( 'Custom field value', 'wp-graphql' ),
+					),
+					'values'  => array(
+						'type'        => array( 'list_of' => 'String' ),
+						'description' => __( 'Custom field values', 'wp-graphql' ),
+					),
+					'compare' => array(
+						'type'        => $type_name . 'MetaCompareEnum',
+						'description' => __( 'Custom field value', 'wp-graphql' ),
+					),
+					'type'    => array(
+						'type'        => $type_name . 'MetaTypeEnum',
+						'description' => __( 'Custom field value', 'wp-graphql' ),
+					),
+				),
+			)
+		);
 
-		$type_registry->register_input_type( $type_name . 'MetaQuery', [
-			'fields' => [
-				'relation'  => [
-					'type' => 'RelationEnum',
-				],
-				'metaArray' => [
-					'type' => [
-						'list_of' => $type_name . 'MetaArray',
-					],
-				],
-			]
-		] );
+		$type_registry->register_input_type(
+			$type_name . 'MetaQuery',
+			array(
+				'fields' => array(
+					'relation'  => array(
+						'type' => 'RelationEnum',
+					),
+					'metaArray' => array(
+						'type' => array(
+							'list_of' => $type_name . 'MetaArray',
+						),
+					),
+				),
+			)
+		);
 
 	}
 
@@ -319,10 +335,16 @@ class MetaQuery {
 				if ( 2 < count( $meta_query['metaArray'] ) ) {
 					unset( $meta_query['relation'] );
 				}
-				foreach ( $meta_query['metaArray'] as $meta_query_key => $value ) {
-					$meta_query[] = [
-						$meta_query_key => $value,
-					];
+				foreach ( $meta_query['metaArray'] as $idx => $value ) {
+					$meta_query[] = array(
+						// $idx => $value,
+						$idx => array(
+							'key'     => $value['key'],
+							'compare' => $value['compare'],
+							'type'    => $value['type'],
+							'value'   => $value['values'] ?? $value['value'],
+						),
+					);
 				}
 			}
 			unset( $meta_query['metaArray'] );
