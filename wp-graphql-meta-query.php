@@ -65,6 +65,7 @@ class MetaQuery {
 		 * @since 0.0.1
 		 */
 		add_filter( 'graphql_map_input_fields_to_wp_query', array( $this, 'map_input_fields' ), 10, 2 );
+		add_filter( 'graphql_map_input_fields_to_wp_user_query', [ $this, 'map_input_fields' ], 10, 2 );
 
 	}
 
@@ -137,7 +138,7 @@ class MetaQuery {
 	 * @throws \Exception
 	 */
 	public function add_input_fields( $fields, $type_name, $config, $type_registry ) {
-		if ( isset( $config['queryClass'] ) && 'WP_Query' === $config['queryClass'] ) {
+		if ( 'RootQueryToUserConnectionWhereArgs' === $type_name || isset( $config['queryClass'] ) && 'WP_Query' === $config['queryClass'] ) {
 			$this->register_types( $type_name, $type_registry );
 			$fields['metaQuery'] = array(
 				'type' => $type_name . 'MetaQuery',
